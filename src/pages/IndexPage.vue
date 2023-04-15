@@ -3,7 +3,8 @@
 
 
 
-    <q-card v-for="n in 3" :key="n" class="my-card" flat bordered>
+    <q-card v-for="post in recepti" :key="post.id" class="my-card" flat bordered>
+
       <q-img src="~assets/pastasuta.jpg" />
 
       <q-card-section>
@@ -11,21 +12,22 @@
           style="top: 0; right: 12px; transform: translateY(-50%)" to="/recept" />
 
         <div class="row no-wrap items-center">
-          <div class="col text-h6 ellipsis">Pastasuta</div>
+          <div class="col text-h6 ellipsis">{{ post.naslov }}</div>
         </div>
 
 
       </q-card-section>
 
       <q-card-section class="q-pt-none">
-        <div class="text-subtitle2">by Naked Chef</div>
-        <q-rating v-model="stars" :max="5" size="24px" />
+        <div class="text-subtitle2">by {{ post.objavio }}</div>
+        <q-rating v-model=post.stars :max="5" size="24px" />
         <div class="text-caption text-grey">
-          Vrati se skuhala sa ti paštašutu
+          {{ post.kratkiOpis }}
         </div>
       </q-card-section>
 
       <q-separator />
+
     </q-card>
   </div>
 </template>
@@ -33,7 +35,33 @@
 <script setup>
 import { ref } from "vue";
 
-const stars = ref(5);
+
+//Popis recepata
+const recepti = ref([
+  {
+    id: 'id1',
+    naslov: 'Paštašuta',
+    objavio: 'Goli kuhar',
+    kratkiOpis: 'Alexa vrati se doma',
+    stars: '3'
+  },
+  {
+    id: 'id2',
+    naslov: 'Jota',
+    objavio: 'Gordon Ramsay',
+    kratkiOpis: 'Jota je zakon!!!',
+    stars: '5'
+  },
+  {
+    id: 'id3',
+    naslov: 'Panceta',
+    objavio: 'Lokanin mesar',
+    kratkiOpis: 'Ne treba ti više...',
+    stars: '4'
+  },
+])
+
+
 </script>
 
 <style>
