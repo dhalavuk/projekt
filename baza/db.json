@@ -1,0 +1,28 @@
+{
+  "recepti": [
+    {
+	"id": 1,
+    "naslov": "Paštašuta",
+    "objavio": "Goli kuhar",
+    "kratkiOpis": "Alexa vrati se doma",
+    "stars": 3,
+	"slika": "baza//slike//pastasuta.jpg"
+    },
+    {
+	"id": 2,
+    "naslov": "Jota",
+    "objavio": "Gordon Ramsay",
+    "kratkiOpis": "Jota je zakon!!!",
+    "stars": 5,
+	"slika": "baza//slike//jota.jpg"
+    },
+    {
+	"id": 3,
+    "naslov": "Panceta",
+    "objavio": "Lokanin mesar",
+    "kratkiOpis": "Ne treba ti više...",
+    "stars": 4,
+	"slika": "baza//slike//panceta.jpg"
+    }
+  ]
+}
