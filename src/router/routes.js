@@ -12,6 +12,7 @@ const routes = [
       { path: "myrecept", component: () => import("pages/MojReceptPage.vue") },
       { path: "login", component: () => import("pages/LoginPage.vue") },
       { path: "us", component: () => import("pages/AboutPage.vue") },
+      { path: "new", component: () => import("pages/ReceptUnosPage.vue") },
     ],
   },
 

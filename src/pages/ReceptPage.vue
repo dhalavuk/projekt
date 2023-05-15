@@ -17,6 +17,9 @@
       <q-input ref="naslovRef" filled v-model="recept.naslov" hint="Naziv jela" lazy-rules
         :rules="[val => val && val.length > 0 || 'Naziv jela je obavezan!']" />
 
+      <q-input filled v-model="recept.kratkiOpis" hint="Kratki opis jela" lazy-rules
+        :rules="[val => val && val.length > 0 || 'Kratki opis jela je obavezan!']" />
+
       <q-input filled v-model="recept.objavio" hint="Autor teksta" lazy-rules
         :rules="[val => val && val.length > 0 || 'Autor je obavezan!']" />
 
@@ -33,16 +36,30 @@
       <div>
         <q-btn label="Spremi" type="submit" color="primary" />
         <q-btn @click="goHome" label="Povratak" color="primary" flat class="q-ml-sm" />
+        <q-btn @click="showDialog = true" label="Brisanje" color="negative" class="q-ml-sm" />
       </div>
     </q-form>
 
   </div>
+
+  <q-dialog v-model="showDialog" persistent class="q-pa-md">
+    <q-card style="width: 400px; max-width: 80vw;">
+      <q-toolbar class="bg-primary text-white">
+        <q-toolbar-title>Upozorenje</q-toolbar-title>
+      </q-toolbar>
+      <q-card-section class="q-pa-md">Ako potvrdite brišete recept: <h4>{{ recept.naslov }}</h4> </q-card-section>
+      <div class="q-ml-sm">
+        <q-btn v-close-popup label="Odustani" color="green" />
+        <q-btn @click="deleteRecept" v-close-popup label="Briši" color="negative" />
+      </div>
+    </q-card>
+  </q-dialog>
 </template>
 
 
 
 <script setup>
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc, deleteDoc } from "firebase/firestore";
 import { db } from 'src/js/firebase'
 import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from 'vue-router';
@@ -60,6 +77,11 @@ const naslovRef = ref(null)
 const ocjenaRef = ref(null)
 const accept = ref(false)
 
+
+//dialog novo
+const showDialog = ref(false)
+
+
 const showRecept = async () => {
   const docRef = doc(db, "recept", trenutniID);
   const docSnap = await getDoc(docRef);
@@ -67,7 +89,8 @@ const showRecept = async () => {
     recept.value = {
       id: docSnap.id,
       naslov: docSnap.data().naslov,
-      opis: docSnap.data().kratkiOpis,
+      opis: docSnap.data().opis,
+      kratkiOpis: docSnap.data().kratkiOpis,
       objavio: docSnap.data().objavio,
       ocjena: docSnap.data().ocjena,
       slika: docSnap.data().slika
@@ -75,20 +98,25 @@ const showRecept = async () => {
     console.log("Recept: ", recept)
   } else {
     // docSnap.data() will be undefined in this case
-    console.log("No such document!");
+    console.log("Dokument ne postoji!");
   }
 }
 const updateRecept = async () => {
   const docRef = doc(db, "recept", trenutniID);
   await updateDoc(docRef, {
     naslov: recept.value.naslov,
-    kratkiOpis: recept.value.opis,
+    kratkiOpis: recept.value.kratkiOpis,
+    opis: recept.value.opis,
     objavio: recept.value.objavio,
     ocjena: recept.value.ocjena
   });
 }
 
-
+const deleteRecept = async () => {
+  console.log("Briše recept sa ID: ", trenutniID)
+  await deleteDoc(doc(db, "recept", trenutniID));
+  goHome()
+}
 const showReceptId = () => {
   alert("ID od ovog recepta je: " + trenutniID)
 }
@@ -102,6 +130,12 @@ const goHome = () => {
 onMounted(() => {
   showRecept()
 })
+
+
+const brisanjeClick = () => {
+  console.log("Obrisano")
+}
+
 
 function onSubmit() {
   console.log("Submitano")
@@ -118,6 +152,7 @@ function onSubmit() {
   }
   else {
     updateRecept()
+    accept.value = false
     $q.notify({
       icon: 'done',
       color: 'positive',

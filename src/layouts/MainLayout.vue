@@ -43,6 +43,13 @@ const linksList = [
     target: "_self",
   },
   {
+    title: "Novi recept",
+    caption: "Unos novog recepta",
+    icon: "chat",
+    link: "/new",
+    target: "_self",
+  },
+  {
     title: "Moji recepti",
     caption: "Svi moji recepti",
     icon: "favorite",
