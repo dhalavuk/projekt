@@ -2,20 +2,26 @@ const routes = [
   {
     path: "/",
     component: () => import("layouts/MainLayout.vue"),
-    children: [{ name:"home", path: "", component: () => import("pages/IndexPage.vue") }],
+    children: [
+      { name:"home", path: "", component: () => import("pages/IndexPage.vue") },
+      { path: "myrecept", component: () => import("pages/MojReceptPage.vue") },
+      { path: "new", component: () => import("pages/ReceptUnosPage.vue") },
+      { path: "logout", component: () => import("pages/LogoutPage.vue") },
+    ],
+
   },
   {
     path: "/",
     component: () => import("layouts/BlankLayout.vue"),
     children: [
-      //{ path: "recept", component: () => import("pages/ReceptPage.vue") },
-      { path: "myrecept", component: () => import("pages/MojReceptPage.vue") },
+      // { path: "recept", component: () => import("pages/ReceptPage.vue") },
+      //{ path: "myrecept", component: () => import("pages/MojReceptPage.vue") },
       { path: "login", component: () => import("pages/LoginPage.vue") },
       { path: "us", component: () => import("pages/AboutPage.vue") },
-      { path: "new", component: () => import("pages/ReceptUnosPage.vue") },
+
+
     ],
   },
-
   {
     path: "/recept",
     component: () => import("layouts/BlankLayout.vue"),
